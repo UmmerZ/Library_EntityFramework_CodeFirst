@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create a Book</h1>
+
+@if (ViewBag.Message != null)
+{
+    <p class="alert-@(ViewBag.Error != null ? "danger" : "success")">@(ViewBag.Message)</p>
+    if (ViewBag.Error != null)
+    {
+        <ul>
+            @foreach (Exception e in ViewBag.Exception.ValidationExceptions)
+            {
+                <li class="alert-danger">@(e.Message)</li>
+            }
+        </ul>
+    }
+}
+
+
+<section>
+
+    <form action="/Book/Create" method="get">
+        <div>
+            <label for="id">ID:</label>
+            <input id="id" type="text" name="id" value="" />
+        </div>
+        <div>
+            <label for="title">Title:</label>
+            <input id="title" type="text" name="title" value="" />
+        </div>
+        <div>
+            <label for="authorID">Choose Author:</label>
+            <select id="authorID" name="authorID">
+                @foreach (Author author in ViewBag.Authors)
+                {
+                    @if (author.ID.ToString() == ViewBag.AuthorID)
+                    {
+                        <option value="@(author.ID)" selected>@(author.Name)</option>
+                    }
+                    else
+                    {
+                        <option value="@(author.ID)">@(author.Name)</option>
+                    }
+                }
+            </select>
+        </div>
+        <div>
+            <label for="publicationDate">Publication Date:</label>
+            <input type="date" id="publicationDate" name="publicationDate"
+                   value="Date.Now()"
+                   min="2020-01-01" max="2020-12-31">
+        </div>
+        <div>
+            <label for="checkedOutDate">Checked Out Date:</label>
+            <input type="date" id="checkedOutDate" name="checkedOutDate"
+                   value="Date.Now()"
+                   min="2020-01-01" max="2020-12-31">
+        </div>
+        <input type="submit" value="Submit" />
+    </form>
+
+</section>
+
+
